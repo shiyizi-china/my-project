@@ -12,6 +12,12 @@ import java.io.IOException;
 @Slf4j
 @WebFilter("/*")
 public class TokenFilter implements Filter {
+
+    if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        chain.doFilter(request, response);
+        return;
+    }
+    
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;

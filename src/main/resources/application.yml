@@ -7,21 +7,24 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   cloud:
     alicloud:
       oss:
         endpoint: https://oss-cn-guangzhou.aliyuncs.com
         bucket-name: home-pageimage
         region: cn-guangzhou
+
+server:
+  http2:
+    enabled: false   # 关键：禁用 HTTP/2
+
 mybatis:
   type-aliases-package: org.shiyizi.pojo
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
-servlet:
-  http2:
-    enabled: false
-  multipart:
-    max-file-size: 10MB
-    max-request-size: 10MB

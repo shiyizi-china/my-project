@@ -1,25 +1,26 @@
 spring:
   datasource:
-    #  Railway 自动注入的 MySQL 变量（服务间内网直连，最稳定）
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD}
+    url: jdbc:mysql://yamabiko.proxy.rlwy.net:17959/railway?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: rJWcDQhoDHWXKbezkQTqjCpZLPcbFCA
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:
-      mode: always  # 自动执行 schema.sql
+      mode: always
   cloud:
     alicloud:
       oss:
         endpoint: https://oss-cn-guangzhou.aliyuncs.com
         bucket-name: home-pageimage
         region: cn-guangzhou
+
 mybatis:
   type-aliases-package: org.shiyizi.pojo
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+
 servlet:
   multipart:
     max-file-size: 10MB

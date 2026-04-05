@@ -1,32 +1,30 @@
 spring:
   datasource:
-    url: jdbc:mysql://mysql1.railway.internal:3306/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=3000&socketTimeout=60000
+    url: jdbc:mysql://inline.proxy.rlwy.net:56928/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
     username: root
     password: SHiWjqZYIVQpQTicwhouYPEKAICQUJ
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      maximum-pool-size: 3
-      minimum-idle: 1
+      maximum-pool-size: 5
+      minimum-idle: 2
       connection-timeout: 3000
-      idle-timeout: 30000
-      max-lifetime: 60000
+      idle-timeout: 60000
+      max-lifetime: 1800000
       connection-test-query: SELECT 1
-  sql:
-    init:
-      mode: never  # 这里必须是 never！关闭自动执行SQL！
-  cloud:
-    alicloud:
-      oss:
-        endpoint: https://oss-cn-guangzhou.aliyuncs.com
-        bucket-name: home-pageimage
-        region: cn-guangzhou
-
+sql:
+  init:
+    mode: never # 关闭自动执行SQL
+cloud:
+  alicloud:
+    oss:
+      endpoint: https://oss-cn-guangzhou.aliyuncs.com
+      bucket-name: home-pageimage
+      region: cn-guangzhou
 mybatis:
   type-aliases-package: org.shiyizi.pojo
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
-
 servlet:
   multipart:
     max-file-size: 10MB

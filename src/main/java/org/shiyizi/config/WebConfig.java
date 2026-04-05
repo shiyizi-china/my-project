@@ -8,11 +8,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOriginPatterns("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
+        registry.addMapping("/**")   // 允许所有接口
+                .allowedOriginPatterns("https://www.lpjdnqf.cn") // 允许的前端域名
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // 允许的请求方法
+                .allowedHeaders("*")      // 允许的请求头
+                .allowCredentials(true)   // 允许携带 cookie
+                .maxAge(3600);            // 预检请求缓存时间（秒）
     }
 }

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD}
+    url: jdbc:mysql://junction.proxy.rlwy.net:56928/railway?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: SHiWjqZYIVQpQTicwhouYPEKAICQUJ
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:

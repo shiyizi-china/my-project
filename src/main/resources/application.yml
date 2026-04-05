@@ -4,6 +4,20 @@ spring:
     username: root
     password: SHiWjqZYIVQpQTicwhouYPEKAICQUJ
     driver-class-name: com.mysql.cj.jdbc.Driver
+    # 核心：Hikari 连接池稳定配置，解决 Railway 断开问题
+    hikari:
+      # 连接超时时间（3秒，快速失败重连）
+      connection-timeout: 3000
+      # 空闲超时时间（10分钟，避免被 Railway 断开）
+      idle-timeout: 600000
+      # 最大生命周期（30分钟，强制刷新连接）
+      max-lifetime: 1800000
+      # 连接超时测试（每次获取连接前验证有效性）
+      connection-test-query: SELECT 1
+      # 最小空闲连接数（保持2个活跃连接，避免断开）
+      minimum-idle: 2
+      # 最大连接数（适配 Railway 免费版限制）
+      maximum-pool-size: 5
   sql:
     init:
       mode: never  # 这里必须是 never！关闭自动执行SQL！

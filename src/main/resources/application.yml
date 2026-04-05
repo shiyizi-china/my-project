@@ -1,12 +1,8 @@
 spring:
-  # 数据库 —— 100% 正确
   datasource:
-    url: jdbc:mysql://inline.proxy.rlwy.net:56928/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-    username: root
-    password: SHiWjqZYIVQpQTicwhouYPEKAICQUJ
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      connection-test-query: SELECT 1
+    url: jdbc:mysql://mysql.railway.internal:3306/railway
+    username: ${MYSQLUSER}
+    password: ${MYSQLPASSWORD}
   sql:
     init:
       mode: always

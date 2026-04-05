@@ -1,16 +1,9 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://yamabiko.proxy.rlwy.net:17959/our_websql?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai}
-    username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:syz20060705}
+    url: jdbc:mysql://junction.proxy.rlwy.net:56928/railway?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: SHiWjqZYIVQpQTicwhouYPEKAICQUJ
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      connection-timeout: 10000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-      maximum-pool-size: 10
-      minimum-idle: 5
-# ... existing code ...
   sql:
     init:
       mode: never  # 这里必须是 never！关闭自动执行SQL！

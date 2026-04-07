@@ -1,50 +1,67 @@
 package org.shiyizi.controller;
 
-import org.shiyizi.mapper.deityMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.log4j.Log4j2;
+import org.shiyizi.Util.AliyunOSSOperator;
+import org.shiyizi.Util.JwtUtils;
+import org.shiyizi.pojo.Deity;
 import org.shiyizi.pojo.Result;
+import org.shiyizi.service.deityService; // 修改导入
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin
+@Log4j2
 public class UserController {
 
     @Autowired
-    private deityMapper deityMapper;
+    private deityService deityService; // 修改为deityService
+
+    @Autowired
+    private AliyunOSSOperator ossOperator;
 
     @PostMapping("/avatar")
-    public Result uploadAvatar(
-            @RequestParam("file") MultipartFile file,
-            @RequestHeader("username") String username
-    ) {
-        if (file.isEmpty()) {
-            return Result.error("文件不能为空");
-        }
-
-        String fileName = System.currentTimeMillis() + ".jpg";
-        String path = "uploads/";
-        File dir = new File(path);
-        if (!dir.exists()) dir.mkdirs();
-
+    public Result uploadAvatar(@RequestParam("file") MultipartFile file,
+                               HttpServletRequest request) {
         try {
-            file.transferTo(new File(dir, fileName));
-        } catch (IOException e) {
-            return Result.error("上传失败");
+            // 1. 从Token获取用户ID
+            String token = request.getHeader("token");
+            Map<String, Object> claims = JwtUtils.parseToken(token);
+            Integer userId = (Integer) claims.get("id");
+
+            // 2. 上传到OSS
+            String avatarUrl = ossOperator.upload(file.getBytes(), file.getOriginalFilename());
+
+            // 3. 更新用户头像 - 使用deityService
+            boolean success = deityService.updateAvatar(userId, avatarUrl);
+
+            if (success) {
+                return Result.success(avatarUrl);
+            } else {
+                return Result.error("更新头像失败");
+            }
+        } catch (Exception e) {
+            log.error("头像上传失败", e);
+            return Result.error("上传失败: " + e.getMessage());
         }
+    }
 
-        String avatarUrl = "/uploads/" + fileName;
-        deityMapper.updateAvatarByUsername(username, avatarUrl);
+    @GetMapping("/me")
+    public Result getCurrentUser(HttpServletRequest request) {
+        try {
+            String token = request.getHeader("token");
+            Map<String, Object> claims = JwtUtils.parseToken(token);
+            Integer userId = (Integer) claims.get("id");
 
-        // 返回包含avatarUrl的数据，而不是简单的字符串
-        Map<String, String> resultData = new HashMap<>();
-        resultData.put("avatarUrl", avatarUrl);
-        return Result.success(resultData);
+            // 查询完整用户信息（包含头像）- 使用deityService
+            Deity user = deityService.findById(userId);
+            return Result.success(user);
+        } catch (Exception e) {
+            return Result.error("获取用户信息失败");
+        }
     }
 }

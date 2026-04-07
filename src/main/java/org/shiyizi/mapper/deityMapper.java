@@ -1,6 +1,5 @@
 package org.shiyizi.mapper;
 
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.*;
 import org.shiyizi.pojo.Deity;
@@ -28,4 +27,7 @@ public interface deityMapper{
     @Update("update deity set avatar=#{avatar} where username=#{username}")
     public int updateAvatarByUsername(@Param("username") String username, @Param("avatar") String avatar);
 
+    // 添加根据ID更新头像的方法（更安全）
+    @Update("update deity set avatar=#{avatarUrl} where id=#{userId}")
+    public int updateAvatarById(@Param("userId") Integer userId, @Param("avatarUrl") String avatarUrl);
 }

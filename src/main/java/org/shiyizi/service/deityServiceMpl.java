@@ -1,4 +1,3 @@
-
 package org.shiyizi.service;
 
 import org.shiyizi.pojo.Deity;
@@ -7,15 +6,6 @@ import org.springframework.stereotype.Service;
 import org.shiyizi.mapper.deityMapper;
 
 import java.util.List;
-import com.aliyun.oss.*;
-import com.aliyun.oss.common.auth.CredentialsProviderFactory;
-import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
-import com.aliyun.oss.common.comm.SignVersion;
-import org.springframework.stereotype.Component;
-import java.io.ByteArrayInputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 @Service
 public class deityServiceMpl implements deityService{
@@ -25,7 +15,7 @@ public class deityServiceMpl implements deityService{
 
     @Override
     public List<Deity> findAll() {
-   return deityMapper.findAll();
+        return deityMapper.findAll();
     }
 
     @Override
@@ -46,5 +36,20 @@ public class deityServiceMpl implements deityService{
     @Override
     public int update(Deity deity) {
         return deityMapper.update(deity);
+    }
+
+    @Override
+    public boolean updateAvatar(Integer userId, String avatarUrl) {
+        if (userId == null || avatarUrl == null || avatarUrl.isEmpty()) {
+            return false;
+        }
+        // 使用ID更新头像（更安全，避免用户名重复问题）
+        Deity deity = new Deity();
+        deity.setId(userId);
+        deity.setAvatar(avatarUrl);
+
+        // 需要在mapper中添加根据ID更新头像的方法
+        int result = deityMapper.updateAvatarById(userId, avatarUrl);
+        return result > 0;
     }
 }

@@ -14,10 +14,22 @@ spring:
         endpoint: https://oss-cn-guangzhou.aliyuncs.com
         bucket-name: home-pageimage
         region: cn-guangzhou
+  datasource:
+    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${MYSQLUSER}
+    password: ${MYSQLPASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
 
 server:
   http2:
     enabled: false
+  port: ${PORT:8080}
 
 mybatis:
   type-aliases-package: org.shiyizi.pojo

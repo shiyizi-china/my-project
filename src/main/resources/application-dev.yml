@@ -1,0 +1,18 @@
+  spring:
+    cloud:
+      alicloud:
+        oss:
+          endpoint: https://oss-cn-guangzhou.aliyuncs.com
+          bucket-name: home-pageimage
+          region: cn-guangzhou
+    datasource:
+      url: jdbc:mysql://localhost:3306/our_websql
+      username: root
+      password: syz20060705
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      hikari:
+        maximum-pool-size: 10
+        minimum-idle: 5
+        connection-timeout: 30000
+        idle-timeout: 600000
+        max-lifetime: 1800000

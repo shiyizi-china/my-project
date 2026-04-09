@@ -47,5 +47,10 @@ public class LoginController {
         }
         log.info("登录失败:{}", deity);
         return Result.error("用户名或密码错误");
+    } 
+    @GetMapping("/")
+    public String health() {
+        return "OK";  // 或者返回任何字符串，只要 HTTP 状态是 200
     }
+}
 }

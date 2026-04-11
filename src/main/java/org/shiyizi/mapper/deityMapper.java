@@ -15,7 +15,7 @@ public interface deityMapper{
     @Select("select * from deity where id=#{id}")
     public Deity findById(Integer id);
 
-    @Insert("insert into deity values(null,#{name},#{username},#{password},#{gender},#{Clazz},#{birthday},#{phone})")
+    @Insert("insert into deity values(null,#{name},#{username},#{password},#{gender},#{Clazz},#{birthday},#{phone},null)")
     public int add(Deity deity);
 
     @Delete("delete from deity where id=#{id}")
